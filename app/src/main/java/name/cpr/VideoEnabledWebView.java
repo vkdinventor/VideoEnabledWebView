@@ -136,4 +136,12 @@ public class VideoEnabledWebView extends WebView
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+                int measuredWidth = getMeasuredWidth();
+                setMeasuredDimension(measuredWidth, measuredWidth*9/16);
+
+    }
 }

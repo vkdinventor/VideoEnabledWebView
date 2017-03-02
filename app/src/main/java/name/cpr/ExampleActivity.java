@@ -1,7 +1,9 @@
 package name.cpr;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,6 +25,17 @@ public class ExampleActivity extends ActionBarActivity
 
         // Save the web view
         webView = (VideoEnabledWebView)findViewById(R.id.webView);
+
+
+        int       height = webView.getHeight()-1;
+        int       width = webView.getWidth()-1;
+
+
+        String frameVideo = "<html><body>" +
+                                "<iframe width=\""+width+"\" height=\""+height+"\" src=\"https://www.youtube.com/embed/LNHBMFCzznE\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+                Log.v("TAG",frameVideo + " width "+width+" height "+height);
+
+
 
         // Initialize the VideoEnabledWebChromeClient and set event handlers
         View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
@@ -50,6 +63,7 @@ public class ExampleActivity extends ActionBarActivity
                     attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
                     attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
                     getWindow().setAttributes(attrs);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     if (android.os.Build.VERSION.SDK_INT >= 14)
                     {
                         //noinspection all
@@ -62,6 +76,7 @@ public class ExampleActivity extends ActionBarActivity
                     attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
                     attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
                     getWindow().setAttributes(attrs);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     if (android.os.Build.VERSION.SDK_INT >= 14)
                     {
                         //noinspection all
@@ -76,7 +91,8 @@ public class ExampleActivity extends ActionBarActivity
         webView.setWebViewClient(new InsideWebViewClient());
         
         // Navigate anywhere you want, but consider that this classes have only been tested on YouTube's mobile site
-        webView.loadUrl("http://m.youtube.com");
+        //webView.loadUrl("http://m.youtube.com");
+        webView.loadData(frameVideo, "text/html", "utf-8");
 
     }
 
